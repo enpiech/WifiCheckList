@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">WifiCheckList</string>
+    <string name="select_wifi">Select the Wi-Fi network you want to use, and press Execute.</string>
+    <string name="btn_detail">Detail</string>
+    <string name="txt_rssi">RSSI</string>
+    <string name="txt_ssid">SSID</string>
+    <string name="txt_bssid">BSSID</string>
+    <string name="txt_security">Security</string>
+    <string name="txt_frequency">Frequency</string>
 </resources>
