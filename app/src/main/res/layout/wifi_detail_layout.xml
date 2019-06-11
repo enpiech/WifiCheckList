@@ -5,67 +5,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Controller.WifiDetailActivity"
-    android:orientation="horizontal"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    tools:context=".Controller.WifiDetailActivity">
+
+    <ListView
+        android:id="@+id/lstWifiProperties"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8">
+
+    </ListView>
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
         android:orientation="vertical">
-        <TextView
+        
+        <EditText
+            android:id="@+id/edtPassword"
+            android:padding="@dimen/text_view_paddding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/txt_ssid"/>
-        <TextView
-            android:layout_width="match_parent"
+            android:inputType="textPassword"
+            android:hint="@string/hint_password"/>
+        
+        <Button
+            android:id="@+id/btnConnect"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/txt_bssid"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_security"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_frequency"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_rssi"/>
+            android:text="@string/btn_connect"/>
     </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/txtSsid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_ssid"/>
-        <TextView
-            android:id="@+id/txtBssid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_bssid"/>
-        <TextView
-            android:id="@+id/txtSecurity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_security"/>
-        <TextView
-            android:id="@+id/txtFrequency"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_frequency"/>
-        <TextView
-            android:id="@+id/txtRssi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_rssi"/>
-    </LinearLayout>
-
 </LinearLayout>

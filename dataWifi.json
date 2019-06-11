@@ -1,0 +1,156 @@
+[
+  {
+    "ssid": "NW_Test",
+    "bssid": "b4:fb:e4:f4:21:cd",
+    "security": "802.1x EAP",
+    "frequency": "2462",
+    "rssi": "-37"
+  },
+  {
+    "ssid": "IVC_Wifi_2G",
+    "bssid": "b6:fb:e4:f4:21:cd",
+    "security": "802.1x EAP",
+    "frequency": "2462",
+    "rssi": "-38"
+  },
+  {
+    "ssid": "IVC_Wifi_5G",
+    "bssid": "b6:fb:e4:f5:21:cd",
+    "security": "802.1x EAP",
+    "frequency": "5180",
+    "rssi": "-42"
+  },
+  {
+    "ssid": "IVC_Dep1 Wifi",
+    "bssid": "3c:1e:04:0b:a3:32",
+    "security": "WPA/WPA2 PSK",
+    "frequency": "2462",
+    "rssi": "-54"
+  },
+  {
+    "ssid": "060701QI",
+    "bssid": "84:3d:c6:f3:3f:8f",
+    "security": "802.1x EAP",
+    "frequency": "5500",
+    "rssi": "-63"
+  },
+  {
+    "ssid": "MSW_Access",
+    "bssid": "84:3d:c6:f3:3f:89",
+    "security": "802.1x EAP",
+    "frequency": "5500",
+    "rssi": "-63"
+  },
+  {
+    "ssid": "BWSDEV",
+    "bssid": "84:3d:c6:f3:3f:86",
+    "security": "WPA/WPA2 PSK",
+    "frequency": "5500",
+    "rssi": "-64"
+  },
+  {
+    "ssid": "NW_Test",
+    "bssid": "b4:fb:e4:f5:21:b2",
+    "security": "802.1x EAP",
+    "frequency": "5785",
+    "rssi": "-65"
+  },
+  {
+    "ssid": "IVC_Wifi_5G",
+    "bssid": "b6:fb:e4:f5:21:b2",
+    "security": "802.1x EAP",
+    "frequency": "5785",
+    "rssi": "-65"
+  },
+  {
+    "ssid": "IVC_Dept2_Wifi",
+    "bssid": "9c:d6:43:cf:80:16",
+    "security": "WPA/WPA2 PSK",
+    "frequency": "2442",
+    "rssi": "-67"
+  },
+  {
+    "ssid": "NW_Test",
+    "bssid": "b4:fb:e4:14:a9:96",
+    "security": "802.1x EAP",
+    "frequency": "2437",
+    "rssi": "-68"
+  },
+  {
+    "ssid": "IVC_Wifi_2G",
+    "bssid": "b6:fb:e4:14:a9:96",
+    "security": "802.1x EAP",
+    "frequency": "2437",
+    "rssi": "-69"
+  },
+  {
+    "ssid": "NW_Test",
+    "bssid": "b4:fb:e4:15:a9:96",
+    "security": "802.1x EAP",
+    "frequency": "5180",
+    "rssi": "-72"
+  },
+  {
+    "ssid": "IVC_Wifi_5G",
+    "bssid": "b6:fb:e4:15:a9:96",
+    "security": "802.1x EAP",
+    "frequency": "5180",
+    "rssi": "-72"
+  },
+  {
+    "ssid": "Sencanh.com",
+    "bssid": "8e:79:67:5a:22:01",
+    "security": "WPA/WPA2 PSK",
+    "frequency": "2472",
+    "rssi": "-76"
+  },
+  {
+    "ssid": "060701QI",
+    "bssid": "84:3d:c6:f3:3f:80",
+    "security": "802.1x EAP",
+    "frequency": "2437",
+    "rssi": "-77"
+  },
+  {
+    "ssid": "BWSDEV",
+    "bssid": "84:3d:c6:f3:3f:89",
+    "security": "WPA/WPA2 PSK",
+    "frequency": "2437",
+    "rssi": "-77"
+  },
+  {
+    "ssid": "MSW_Access",
+    "bssid": "84:3d:c6:f3:3f:86",
+    "security": "802.1x EAP",
+    "frequency": "2437",
+    "rssi": "-77"
+  },
+  {
+    "ssid": "IVC_Wifi_5G",
+    "bssid": "b6:fb:e4:f5:21:68",
+    "security": "802.1x EAP",
+    "frequency": "5180",
+    "rssi": "-83"
+  },
+  {
+    "ssid": "NW_Test",
+    "bssid": "b4:fb:e4:f5:21:68",
+    "security": "802.1x EAP",
+    "frequency": "5180",
+    "rssi": "-84"
+  },
+  {
+    "ssid": "Lan Quai Phong",
+    "bssid": "9e:5c:f9:6c:22:71",
+    "security": "WPA/WPA2 PSK",
+    "frequency": "2437",
+    "rssi": "-89"
+  },
+  {
+    "ssid": "BWSDEV",
+    "bssid": "50:0f:80:40:b2:56",
+    "security": "WPA/WPA2 PSK",
+    "frequency": "5660",
+    "rssi": "-89"
+  }
+]

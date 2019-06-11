@@ -7,4 +7,8 @@
     <string name="txt_bssid">BSSID</string>
     <string name="txt_security">Security</string>
     <string name="txt_frequency">Frequency</string>
+    <string name="btn_reject">Reject</string>
+    <string name="btn_grant">Grant</string>
+    <string name="btn_connect">Connect</string>
+    <string name="hint_password">Password</string>
 </resources>
