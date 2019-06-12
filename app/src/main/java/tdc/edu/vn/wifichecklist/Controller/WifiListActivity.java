@@ -140,6 +140,7 @@ public class WifiListActivity extends AppCompatActivity {
     private void loadData() {
         // Get wifi list
 //        wifiList = GetWifiDataFromJson.getWifiDataFromJSON(this);
+
         wifiList = new ArrayList<>();
         adapter = new WifiAdapter(wifiList, getApplicationContext());
         // If current selected item is changed, toggle button

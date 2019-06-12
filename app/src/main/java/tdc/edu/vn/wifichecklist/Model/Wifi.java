@@ -17,6 +17,7 @@ public class Wifi implements Serializable {
     private String security;
     private int frequency;
     private int rssi;
+    private String password;
 
     public Wifi(String ssid, String bssid, String security, int frequency, int rssi) {
         this.ssid = ssid;
@@ -54,5 +55,13 @@ public class Wifi implements Serializable {
             displayName += WIFI_FREQUENCY_2_4GHZ;
         }
         return displayName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
