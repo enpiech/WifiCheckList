@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import tdc.edu.vn.wifichecklist.R;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
@@ -32,7 +32,7 @@ public class Login extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         //Nếu có user cũ thì vào thẳng
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(Login.this, WifiListActivity.class));
+            startActivity(new Intent(LoginActivity.this, WifiListActivity.class));
             finish();
         }
         setContentView(R.layout.activity_login);
@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplication(), SignupActivity.class));
+                startActivity(new Intent(getApplication(), SignUpActivity.class));
             }
         });
 
@@ -81,7 +81,7 @@ public class Login extends AppCompatActivity {
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnSignup = (Button) findViewById(R.id.btn_signup);
+        btnSignup = (Button) findViewById(R.id.btn_sign_up);
         btnLogin = (Button) findViewById(R.id.btn_login);
     }
 
@@ -106,7 +106,7 @@ public class Login extends AppCompatActivity {
 
         //authenticate user
         auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         // If sign in fails, display a message to the user. If sign in succeeds
@@ -118,10 +118,10 @@ public class Login extends AppCompatActivity {
                             if (password.length() < 6) {
                                 inputPassword.setError(getString(R.string.minimum_password));
                             } else {
-                                Toast.makeText(Login.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Intent intent = new Intent(Login.this, WifiListActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, WifiListActivity.class);
                             startActivity(intent);
                             finish();
                         }

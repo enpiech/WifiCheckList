@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="layout_padding_8dp">8dp</dimen>
+    <dimen name="btn_text_size_15sp">15sp</dimen>
+    <dimen name="btn_padding_8dp">8dp</dimen>
+</resources>

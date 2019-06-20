@@ -1,4 +1,4 @@
-package tdc.edu.vn.wifichecklist.dal;
+package tdc.edu.vn.wifichecklist.dal.manager;
 
 import android.content.ContentValues;
 import android.content.Context;

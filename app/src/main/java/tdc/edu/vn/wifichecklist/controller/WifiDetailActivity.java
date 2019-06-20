@@ -18,12 +18,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import java.util.ArrayList;
 import tdc.edu.vn.wifichecklist.R;
 import tdc.edu.vn.wifichecklist.dal.DataSource;
-import tdc.edu.vn.wifichecklist.dal.SQLiteDBManager;
+import tdc.edu.vn.wifichecklist.dal.manager.SQLiteDBManager;
 import tdc.edu.vn.wifichecklist.model.Wifi;
 
 public class WifiDetailActivity extends AppCompatActivity {
@@ -67,6 +69,9 @@ public class WifiDetailActivity extends AppCompatActivity {
         lstWifiProperties = findViewById(R.id.lstWifiProperties);
         btnConnect = findViewById(R.id.btnConnect);
         edtPassword = findViewById(R.id.edtPassword);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     private void loadData() {
@@ -171,6 +176,11 @@ public class WifiDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.wifi_detail_action_menu, menu);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         return true;
     }
 
@@ -178,6 +188,7 @@ public class WifiDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.btn_forget) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Forget this wi-fi ?");
             builder.setNegativeButton(R.string.btn_reject, new OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -187,7 +198,7 @@ public class WifiDetailActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.btn_confirm, new OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    DataSource.forgetWifi(getApplicationContext(), wifiData);
+                    forgetWifi(wifiData);
                 }
             });
             builder.show();
@@ -210,6 +221,28 @@ public class WifiDetailActivity extends AppCompatActivity {
             unregisterReceiver(wifiReceiver);
         } catch (IllegalArgumentException e) {
             e.getMessage();
+        }
+    }
+
+    // Forget current wifi
+    // Find if this known wifi, if yes, remove it then disconnect, then remove it in SQLite
+    private void forgetWifi(Wifi wifi) {
+        int netId = -1;
+
+        // Check if this network is known
+        for (WifiConfiguration conf : wifiManager.getConfiguredNetworks()) {
+            if (conf.SSID.equals(String.format("\"%s\"", wifi.getSsid()))) {
+                netId = conf.networkId;
+                break;
+            }
+        }
+
+        if (netId != -1) {
+//            wifiManager.disconnect();
+            int networkId = wifiManager.getConnectionInfo().getNetworkId();
+            Log.d("WifiDetail", wifiManager.removeNetwork(networkId)+ "");
+            wifiManager.saveConfiguration();
+            DataSource.forgetWifi(getApplicationContext(), wifiData);
         }
     }
 }

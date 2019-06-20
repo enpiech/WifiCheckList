@@ -7,23 +7,19 @@
         <item
             android:id="@+id/nav_current"
             android:icon="@drawable/ic_wifi"
-            android:title="Current" />
-        <item
-            android:id="@+id/nav_known"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Known" />
+            android:title="@string/label_current" />
         <item
             android:id="@+id/nav_save"
             android:icon="@android:drawable/ic_menu_save"
-            android:title="Save" />
+            android:title="@string/label_save" />
         <item
             android:id="@+id/nav_load"
             android:icon="@android:drawable/ic_popup_sync"
-            android:title="Load" />
+            android:title="@string/label_load" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@android:drawable/ic_lock_power_off"
-            android:title="Logout" />
+            android:title="@string/label_logout" />
     </group>
 
 </menu>
