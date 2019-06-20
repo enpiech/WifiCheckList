@@ -5,13 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Controller.WifiListActivity"
+    tools:context=".controller.WifiListActivity"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/text_view_paddding">
+        android:padding="@dimen/text_view_padding">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"
-        android:padding="@dimen/text_view_paddding" />
+        android:padding="@dimen/text_view_padding" />
 
     <LinearLayout
         android:layout_width="match_parent"

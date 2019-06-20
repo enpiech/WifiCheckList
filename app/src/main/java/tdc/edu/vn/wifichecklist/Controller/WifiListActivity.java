@@ -1,6 +1,6 @@
-package tdc.edu.vn.wifichecklist.Controller;
+package tdc.edu.vn.wifichecklist.controller;
 
-import android.Manifest;
+import android.Manifest.permission;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,25 +16,32 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.Data.Builder;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 import java.util.List;
-
-import tdc.edu.vn.wifichecklist.Adapter.ItemClickListener;
-import tdc.edu.vn.wifichecklist.Adapter.WifiAdapter;
-import tdc.edu.vn.wifichecklist.Model.Wifi;
+import java.util.concurrent.TimeUnit;
 import tdc.edu.vn.wifichecklist.R;
+import tdc.edu.vn.wifichecklist.adapter.ItemClickListener;
+import tdc.edu.vn.wifichecklist.adapter.WifiAdapter;
+import tdc.edu.vn.wifichecklist.dal.DataSource;
+import tdc.edu.vn.wifichecklist.model.Wifi;
+import tdc.edu.vn.wifichecklist.worker.UpdateDataFromFireBaseWorker;
 
 public class WifiListActivity extends AppCompatActivity {
+    public static String EXTRA_WIFI_DATA = "EXTRA_WIFI_DATA_ID";
 
     private static final int PERMISSIONS_REQUEST_CODE_ACCESS_LOCATION = 0;
+    private static final int WIFI_SCAN_INTERVAL_SECOND = 15;
+    private static final int FIRE_BASE_UPDATE_INTERVAL = 15;
+
     private ListView lstWifi;
-    private ArrayList<Wifi> wifiList;
     private WifiAdapter adapter;
     private Button btnDetail;
 
@@ -46,17 +53,12 @@ public class WifiListActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
+                DataSource.clear();
+
                 List<ScanResult> results = wifiManager.getScanResults();
-                wifiList.clear();
                 for (ScanResult result : results) {
-                    wifiList.add(new Wifi(result.SSID, result.BSSID, result.capabilities, result.frequency, result.level));
+                    DataSource.addWifi(new Wifi(result.SSID, result.BSSID, result.capabilities, result.frequency, result.level));
                 }
-                Collections.sort(wifiList, new Comparator<Wifi>() {
-                    @Override
-                    public int compare(Wifi wifi, Wifi t1) {
-                        return t1.getRssi() - wifi.getRssi();
-                    }
-                });
                 adapter.notifyDataSetChanged();
             }
         }
@@ -68,11 +70,12 @@ public class WifiListActivity extends AppCompatActivity {
         setContentView(R.layout.wifi_list_layout);
 
         loadServices();
-
-        scanWifiEvery(30);
+        turnOnRequireServices();
+        scanWifiEvery(WIFI_SCAN_INTERVAL_SECOND);
 
         loadView();
         loadData();
+        setEvent();
     }
 
     private void scanWifiEvery(final int seconds) {
@@ -94,28 +97,30 @@ public class WifiListActivity extends AppCompatActivity {
     }
 
     private void turnOnRequireServices() {
-        turnOnGPS();
-        turnOnWifi();
+        if (isGrantedPermission(permission.ACCESS_FINE_LOCATION, PERMISSIONS_REQUEST_CODE_ACCESS_LOCATION)) {
+            turnOnGPS();
+            turnOnWifi();
+        }
+    }
+
+    private boolean isGrantedPermission(String permission, int requestCode) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED){
+            // If permission is not granted, request permission
+            requestPermissions(new String[]{ permission }, requestCode);
+            return false;
+        }
+        return true;
     }
 
     private void turnOnWifi() {
         // Turn on wifi if it is not enabled
-        if (!wifiManager.isWifiEnabled()) {
-            wifiManager.setWifiEnabled(true);
-        }
+        if (!wifiManager.isWifiEnabled()) { wifiManager.setWifiEnabled(true); }
 
         // Register receiver
         registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
-        // Start scan
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_CODE_ACCESS_LOCATION);
-            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
-
-        }else{
-            wifiManager.startScan();
-        }
+        wifiManager.startScan();
     }
 
     private void turnOnGPS() {
@@ -126,9 +131,8 @@ public class WifiListActivity extends AppCompatActivity {
     }
 
     private void loadView() {
-        // Set action barr
-        assert getSupportActionBar() != null;
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // Set action bar
+        if (getSupportActionBar() != null) { getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
 
         // Get list wifi view
         lstWifi = findViewById(R.id.lstWifi);
@@ -138,11 +142,10 @@ public class WifiListActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        // Get wifi list
-//        wifiList = GetWifiDataFromJson.getWifiDataFromJSON(this);
+        requestPeriodicUpdateDataFromFireBase(FIRE_BASE_UPDATE_INTERVAL);
 
-        wifiList = new ArrayList<>();
-        adapter = new WifiAdapter(wifiList, getApplicationContext());
+        adapter = new WifiAdapter(DataSource.getCurrentWifiList(), getApplicationContext());
+
         // If current selected item is changed, toggle button
         adapter.setItemClickListener(new ItemClickListener() {
             @Override
@@ -155,14 +158,37 @@ public class WifiListActivity extends AppCompatActivity {
             }
         });
         lstWifi.setAdapter(adapter);
+    }
 
+    private void requestPeriodicUpdateDataFromFireBase(int interval) {
+        /*TODO put user uuid when login*/
+        Data userUuid = new Builder().putString("userUuid", "WGjuRx4KwPdaPea9vD0PGWnCcTa2").build();
+
+        // Request update data from FireBase every 12 hours
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresBatteryNotLow(true)
+                .build();
+
+        PeriodicWorkRequest.Builder builder;
+        builder = new PeriodicWorkRequest.Builder(UpdateDataFromFireBaseWorker.class, interval, TimeUnit.MINUTES);
+        builder
+                .addTag(UpdateDataFromFireBaseWorker.TAG)
+                .setInputData(userUuid)
+                .setConstraints(constraints);
+        PeriodicWorkRequest updateDataWork = builder.build();
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(UpdateDataFromFireBaseWorker.TAG, ExistingPeriodicWorkPolicy.REPLACE, updateDataWork);
+    }
+
+    private void setEvent() {
         // Button is disable by default
         btnDetail.setEnabled(false);
         btnDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(WifiListActivity.this, WifiDetailActivity.class);
-                intent.putExtra("wifiData", adapter.getItem(adapter.getSelectedPosition()));
+                intent.putExtra(EXTRA_WIFI_DATA, adapter.getSelectedPosition());
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }
@@ -171,9 +197,7 @@ public class WifiListActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST_CODE_ACCESS_LOCATION) {
-            wifiManager.startScan();
-        }
+        if (requestCode == PERMISSIONS_REQUEST_CODE_ACCESS_LOCATION) { wifiManager.startScan(); }
     }
 
     @Override

@@ -3,7 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/wifiItem"
-    android:padding="@dimen/text_view_paddding"
+    android:padding="@dimen/text_view_padding"
     android:background="@drawable/wifi_item">
 
     <RadioButton
@@ -15,7 +15,7 @@
         android:layout_weight="1"/>
 
     <Space
-        android:layout_width="@dimen/text_view_paddding"
+        android:layout_width="@dimen/text_view_padding"
         android:layout_height="match_parent" />
 
     <LinearLayout

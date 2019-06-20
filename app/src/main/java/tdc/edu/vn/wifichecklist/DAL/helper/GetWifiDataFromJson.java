@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import tdc.edu.vn.wifichecklist.Model.Wifi;
+import tdc.edu.vn.wifichecklist.model.Wifi;
 import tdc.edu.vn.wifichecklist.R;
 
 public class GetWifiDataFromJson {

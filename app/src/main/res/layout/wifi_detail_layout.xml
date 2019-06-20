@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="vertical"
-    tools:context=".Controller.WifiDetailActivity">
+    tools:context=".controller.WifiDetailActivity">
 
     <ListView
         android:id="@+id/lstWifiProperties"
@@ -23,15 +23,21 @@
         android:layout_weight="2"
         android:gravity="center"
         android:orientation="vertical">
-        
-        <EditText
-            android:id="@+id/edtPassword"
-            android:padding="@dimen/text_view_paddding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="@string/hint_password"/>
-        
+
+        <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:passwordToggleEnabled="true">
+            <EditText
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+
+              android:id="@+id/edtPassword"
+              android:padding="@dimen/text_view_padding"
+              android:inputType="textPassword"
+              android:hint="@string/hint_password" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/btnConnect"
             android:layout_width="wrap_content"

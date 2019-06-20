@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "824224904437",
+    "firebase_url": "https://wifilist-25958.firebaseio.com",
+    "project_id": "wifilist-25958",
+    "storage_bucket": "wifilist-25958.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824224904437:android:668ac19e6bba9515",
+        "android_client_info": {
+          "package_name": "tdc.edu.vn.wifichecklist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824224904437-na7isjsp2odrdtc03kuuer8rt956e18u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tdc.edu.vn.wifichecklist",
+            "certificate_hash": "4984f834393e77a8ae5a7222f37000b14f40a44b"
+          }
+        },
+        {
+          "client_id": "824224904437-j4nm4so0ckr5cvnq5uvrctqisp3qtllj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-uF6yZ8ZPxEjENxe9cpl32sEeJ4nSWis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824224904437-j4nm4so0ckr5cvnq5uvrctqisp3qtllj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

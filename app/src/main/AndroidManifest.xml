@@ -17,8 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controller.WifiDetailActivity"></activity>
-        <activity android:name=".Controller.WifiListActivity">
+        <activity android:name=".controller.WifiDetailActivity"></activity>
+        <activity android:name=".controller.WifiListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

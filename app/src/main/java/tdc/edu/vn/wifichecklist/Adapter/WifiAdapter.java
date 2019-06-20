@@ -1,4 +1,4 @@
-package tdc.edu.vn.wifichecklist.Adapter;
+package tdc.edu.vn.wifichecklist.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import tdc.edu.vn.wifichecklist.Model.Wifi;
+import java.util.Collections;
+import java.util.Comparator;
+import org.jetbrains.annotations.NotNull;
+import tdc.edu.vn.wifichecklist.model.Wifi;
 import tdc.edu.vn.wifichecklist.R;
 
 public class WifiAdapter extends ArrayAdapter<Wifi> {
@@ -32,8 +35,9 @@ public class WifiAdapter extends ArrayAdapter<Wifi> {
         this.mContext = context;
     }
 
+    @NotNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NotNull ViewGroup parent) {
         Wifi data = getItem(position);
 
         ViewHolder viewHolder;
@@ -55,24 +59,27 @@ public class WifiAdapter extends ArrayAdapter<Wifi> {
             result = convertView;
         }
 
-        viewHolder.radWifiItem.setChecked(position == selectedPosition);
-        viewHolder.txtWifiItemName.setText(data.getWifiName());
+        if (data != null) {
+            viewHolder.radWifiItem.setChecked(position == selectedPosition);
 
-        viewHolder.radWifiItem.setTag(position);
-        viewHolder.txtWifiItemName.setTag(position);
+            viewHolder.txtWifiItemName.setText(data.getWifiName());
 
-        final int imageId;
-        if (data.getRssi() > -60) {
-            imageId = R.mipmap.ic_wifi_lv4;
-        } else if (data.getRssi() < -61 && data.getRssi() > -70) {
-            imageId = R.mipmap.ic_wifi_lv3;
-        } else if (data.getRssi() < -71 && data.getRssi() > -80) {
-            imageId = R.mipmap.ic_wifi_lv2;
-        } else {
-            imageId = R.mipmap.ic_wifi_lv1;
+            viewHolder.radWifiItem.setTag(position);
+            viewHolder.txtWifiItemName.setTag(position);
+
+            final int imageId;
+            if (data.getRssi() > -60) {
+                imageId = R.mipmap.ic_wifi_lv4;
+            } else if (data.getRssi() < -59 && data.getRssi() > -70) {
+                imageId = R.mipmap.ic_wifi_lv3;
+            } else if (data.getRssi() < -69 && data.getRssi() > -80) {
+                imageId = R.mipmap.ic_wifi_lv2;
+            } else {
+                imageId = R.mipmap.ic_wifi_lv1;
+            }
+
+            viewHolder.imgWifiItem.setImageResource(imageId);
         }
-
-        viewHolder.imgWifiItem.setImageResource(imageId);
 
         viewHolder.radWifiItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +108,18 @@ public class WifiAdapter extends ArrayAdapter<Wifi> {
         itemClickListener.onItemClick(selectedPosition);
 
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        Collections.sort(dataSet, new Comparator<Wifi>() {
+            @Override
+            public int compare(Wifi wifi, Wifi t1) {
+                return t1.getRssi() - wifi.getRssi();
+            }
+        });
+
+        super.notifyDataSetChanged();
     }
 
     public int getSelectedPosition() {

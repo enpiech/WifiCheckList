@@ -1,4 +1,4 @@
-package tdc.edu.vn.wifichecklist.Model;
+package tdc.edu.vn.wifichecklist.model;
 
 import java.io.Serializable;
 
@@ -8,48 +8,78 @@ public class Wifi implements Serializable {
     public static final String SECURITY_KEY = "security";
     public static final String FREQUENCY_KEY = "frequency";
     public static final String RSSI_KEY = "rssi";
+    public static final String PASSWORD_KEY = "password";
+    public static final String STATE_KEY = "state";
 
     private static final String WIFI_FREQUENCY_5GHZ = " [5 GHz] ";
     private static final String WIFI_FREQUENCY_2_4GHZ = " [2.4 GHz] ";
 
-    private String ssid;
-    private String bssid;
-    private String security;
-    private int frequency;
-    private int rssi;
-    private String password;
+    private String mSsid;
+    private String mBssid;
+    private String mSecurity;
+    private int mFrequency;
+    private int mRssi;
+    private String mPassword;
+    private boolean mIsUpdated;
+
+    public Wifi() { }
 
     public Wifi(String ssid, String bssid, String security, int frequency, int rssi) {
-        this.ssid = ssid;
-        this.bssid = bssid;
-        this.security = security;
-        this.frequency = frequency;
-        this.rssi = rssi;
+        this.mSsid = ssid;
+        this.mBssid = bssid;
+        this.mSecurity = security;
+        this.mFrequency = frequency;
+        this.mRssi = rssi;
+        this.mIsUpdated = false;
     }
 
+    public Wifi(String ssid, String bssid, String security, int frequency, int rssi,
+        String password) {
+        this.mSsid = ssid;
+        this.mBssid = bssid;
+        this.mSecurity = security;
+        this.mFrequency = frequency;
+        this.mRssi = rssi;
+        this.mPassword = password;
+        this.mIsUpdated = false;
+    }
+
+    public Wifi(String ssid, String bssid, String security, int frequency, int rssi,
+        String password, boolean isUpdated) {
+        this.mSsid = ssid;
+        this.mBssid = bssid;
+        this.mSecurity = security;
+        this.mFrequency = frequency;
+        this.mRssi = rssi;
+        this.mPassword = password;
+        this.mIsUpdated = isUpdated;
+    }
+
+    /* GETTER */
+
     public String getSsid() {
-        return ssid;
+        return mSsid;
     }
 
     public String getBssid() {
-        return bssid;
+        return mBssid;
     }
 
     public String getSecurity() {
-        return security;
+        return mSecurity;
     }
 
     public int getFrequency() {
-        return frequency;
+        return mFrequency;
     }
 
     public int getRssi() {
-        return rssi;
+        return mRssi;
     }
 
     public String getWifiName() {
-        String displayName = ssid;
-        if (frequency > 5179 && frequency < 5186) {
+        String displayName = mSsid;
+        if (mFrequency > 5179 && mFrequency < 5186) {
             displayName += WIFI_FREQUENCY_5GHZ;
         } else {
             displayName += WIFI_FREQUENCY_2_4GHZ;
@@ -58,10 +88,49 @@ public class Wifi implements Serializable {
     }
 
     public String getPassword() {
-        return password;
+        return mPassword;
+    }
+
+    public boolean isUpdated() {
+        return mIsUpdated;
+    }
+
+    /* SETTER */
+
+    public void setSsid(String ssid) {
+        this.mSsid = ssid;
+    }
+
+    public void setBssid(String bssid) {
+        this.mBssid = bssid;
+    }
+
+    public void setSecurity(String mSecurity) {
+        this.mSecurity = mSecurity;
+    }
+
+    public void setFrequency(int frequency) {
+        this.mFrequency = frequency;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.mPassword = password;
+    }
+
+    public void setIsUpdated(boolean isUpdated) {
+        this.mIsUpdated = isUpdated;
+    }
+
+    @Override
+    public String toString() {
+        return "Wifi{" +
+                "mSsid='" + mSsid + '\'' +
+                ", mBssid='" + mBssid + '\'' +
+                ", mSecurity='" + mSecurity + '\'' +
+                ", mFrequency=" + mFrequency +
+                ", mRssi=" + mRssi +
+                ", mPassword='" + mPassword + '\'' +
+                ", mIsUpdated=" + mIsUpdated +
+                '}';
     }
 }
