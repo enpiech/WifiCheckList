@@ -243,6 +243,7 @@ public class WifiListActivity extends AppCompatActivity implements NavigationVie
                 startActivity(new Intent(getApplication(), SignUpActivity.class));
                 break;
         }
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }

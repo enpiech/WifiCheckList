@@ -238,7 +238,6 @@ public class WifiDetailActivity extends AppCompatActivity {
         }
 
         if (netId != -1) {
-//            wifiManager.disconnect();
             int networkId = wifiManager.getConnectionInfo().getNetworkId();
             Log.d("WifiDetail", wifiManager.removeNetwork(networkId)+ "");
             wifiManager.saveConfiguration();
