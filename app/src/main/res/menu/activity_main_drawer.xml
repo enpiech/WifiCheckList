@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_current"
+            android:icon="@drawable/ic_wifi"
+            android:title="Current" />
+        <item
+            android:id="@+id/nav_known"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Known" />
+        <item
+            android:id="@+id/nav_save"
+            android:icon="@android:drawable/ic_menu_save"
+            android:title="Save" />
+        <item
+            android:id="@+id/nav_load"
+            android:icon="@android:drawable/ic_popup_sync"
+            android:title="Load" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@android:drawable/ic_lock_power_off"
+            android:title="Logout" />
+    </group>
+
+</menu>

@@ -13,11 +13,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.Data.Builder;
@@ -25,6 +32,10 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
+
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import tdc.edu.vn.wifichecklist.R;
@@ -34,7 +45,7 @@ import tdc.edu.vn.wifichecklist.dal.DataSource;
 import tdc.edu.vn.wifichecklist.model.Wifi;
 import tdc.edu.vn.wifichecklist.worker.UpdateDataFromFireBaseWorker;
 
-public class WifiListActivity extends AppCompatActivity {
+public class WifiListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     public static String EXTRA_WIFI_DATA = "EXTRA_WIFI_DATA_ID";
 
     private static final int PERMISSIONS_REQUEST_CODE_ACCESS_LOCATION = 0;
@@ -193,6 +204,12 @@ public class WifiListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if(auth.getCurrentUser() != null)
+        {
+            Toast.makeText(this, "User ID: " + auth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
+        }
+        showDrawer();
     }
 
     @Override
@@ -210,5 +227,55 @@ public class WifiListActivity extends AppCompatActivity {
     protected void onResume() {
         registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_current) {
+            // Handle the camera action
+        } else if (id == R.id.nav_known) {
+
+        } else if (id == R.id.nav_save) {
+
+        } else if (id == R.id.nav_load) {
+
+        } else if (id == R.id.nav_logout) {
+            //get firebase auth instance
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            auth.signOut();
+            startActivity(new Intent(getApplication(), SignupActivity.class));
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void showDrawer()
+    {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
     }
 }
